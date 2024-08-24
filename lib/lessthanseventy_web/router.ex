@@ -8,6 +8,7 @@ defmodule LessthanseventyWeb.Router do
     plug :put_root_layout, html: {LessthanseventyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug LessthanseventyWeb.Plug.WWW
   end
 
   pipeline :api do
