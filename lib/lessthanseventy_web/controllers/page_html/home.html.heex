@@ -1,22 +1,54 @@
-<.flash_group flash={@flash} />
-<div class="hero min-h-screen bg-dark flex items-center justify-center text-center">
-  <div class="container">
-    <h1 class="text-5xl font-bold text-yellow mb-4">lessthanseventy</h1>
-    <p class="text-xl text-green mb-8">
-      A personal website developed using Elixir, Phoenix, LiveView, and Tailwind.
-    </p>
-    <a href="#sections" class="text-green underline">Explore More</a>
-  </div>
-</div>
-
-<div id="sections" class="container mx-auto py-8">
-  <h2 class="text-3xl font-bold text-yellow mb-4">Sections</h2>
-  <div class="grid grid-cols-3 gap-4">
+<header class="bg-dark text-green p-4 flex justify-between items-center">
+  <h1 class="text-5xl font-bold text-yellow mb-4">lessthanseventy</h1>
+  <nav>
     <a
       href={~p"/documents/moore_andrew_resume.pdf"}
-      class="p-4 bg-dark text-center rounded text-green hover:bg-yellow hover:text-dark transition"
+      class="text-green hover:text-yellow transition"
     >
       Resume
     </a>
+  </nav>
+</header>
+<.flash_group flash={@flash} />
+<div class="hero min-h-screen bg-dark flex
+items-center justify-center text-center">
+  <div class="container">
+    <p class="text-xl text-green mb-8">Hello there! I'm Andrew Moore, a
+      passionate web developer based in the beautiful state of Colorado. I started
+      my journey as a full-stack apprentice with Launch Scout and have been in
+      love with Elixir, Phoenix, and Liveview ever since. Over the years, I've
+      had the opportunity to work on a variety of projects, from housing and
+      rental property to financial, logistics, healthcare, auctions, and
+      real-time communication.</p>
+    <p class="text-xl text-green mb-8">
+      I've been fortunate to share my knowledge and experiences at various
+      conferences including ElixirConf and CodeBEAM, and I'm always eager to
+      learn more and stay updated with the latest trends in web technologies. I
+      believe in breaking down projects into small, manageable pieces and
+      prioritizing work based on current business and technical needs.
+    </p>
+    <p class="text-xl text-green mb-8">
+      As a visually disabled person, I've faced and overcome adversity
+      throughout my life. This has instilled in me a strong ability to
+      persevere and push through challenges, whether they're business-related,
+      technical, or interpersonal. I'm particularly proud of my talk at
+      CodeBEAM, where I discussed how we transformed our Liveview application
+      into a PWA that could be submitted to the iOS and Google Play stores.
+    </p>
+    <p class="text-xl text-green mb-8">
+      When I'm not coding or speaking at conferences, you can find me outdoors,
+      hiking, fishing, or meeting new people from all over the world. I'm also
+      passionate about helping other blind and visually impaired individuals
+      find employment, which is the inspiration behind lessthanseventy.
+      According to the National Federation of the Blind, as of 2017, the
+      non-employment rate among legally blind individuals in the United States
+      was approximately 70%.
+    </p>
+    <p class="text-xl text-green mb-8">
+      If you're interested in collaborating or just want to chat, feel free to
+      reach out to me at andrew@lessthanseventy.com. You can also find me on
+      GitHub, LinkedIn, or Discord as lessthanseventy. Looking forward to
+      connecting with you!
+    </p>
   </div>
 </div>
