@@ -2,13 +2,13 @@ defmodule LessthanseventyWeb.Router do
   use LessthanseventyWeb, :router
 
   pipeline :browser do
+    plug LessthanseventyWeb.Plug.WWW
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, html: {LessthanseventyWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug LessthanseventyWeb.Plug.WWW
   end
 
   pipeline :api do
