@@ -1,35 +1,37 @@
 <header class="bg-dark text-green p-4 flex justify-between items-center">
-  <h1 class="text-5xl font-bold text-yellow mb-4">lessthanseventy</h1>
-  <nav>
-    <a
-      href={~p"/documents/moore_andrew_resume.pdf"}
-      class="text-green hover:text-yellow transition"
-    >
-      <div class="flex text-2xl items-center gap-3">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 18M6 6l12 12"
+  <div class="w-full flex flex-col items-center md:flex-row md:justify-between">
+    <h1 class="text-3xl font-bold text-yellow mb-4 sm:text-5xl">lessthanseventy</h1>
+    <nav>
+      <a
+        href={~p"/documents/moore_andrew_resume.pdf"}
+        class="text-green hover:text-yellow transition"
+      >
+        <div class="flex text-xl items-center gap-3 md:text-xl">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-          </path>
-        </svg>
-        Resume
-      </div>
-    </a>
-  </nav>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 18M6 6l12 12"
+            >
+            </path>
+          </svg>
+          Resume
+        </div>
+      </a>
+    </nav>
+  </div>
 </header>
 <.flash_group flash={@flash} />
 <div class="hero min-h-screen bg-dark flex items-center justify-center text-center">
   <div class="container mx-auto px-4 md:px-0 max-w-3xl">
-    <p class="text-xl text-green mb-8">
+    <p class="text-lg text-green mb-8 md:text-2xl">
       Greetings! I'm Andrew Moore, a dedicated web developer residing in the
       beautiful state of Colorado. My journey in full-stack development began
       with Launch Scout, where I fell in love with Elixir, Phoenix, and
@@ -37,7 +39,7 @@
       projects, spanning sectors such as housing, finance, logistics,
       healthcare, auctions, and real-time communication.
     </p>
-    <p class="text-xl text-green mb-8">
+    <p class="text-lg text-green mb-8 md:text-2xl">
       I've been fortunate enough to share my insights and experiences at
       various conferences, including ElixirConf and CodeBEAM. I'm an avid
       learner, always staying abreast of the latest trends in web technologies.
@@ -45,7 +47,7 @@
       and prioritizing work based on immediate business and technical
       requirements.
     </p>
-    <p class="text-xl text-green mb-8">
+    <p class="text-lg text-green mb-8 md:text-2xl">
       As a visually impaired individual, I've faced and surmounted numerous
       challenges throughout my life. This has instilled in me a robust ability
       to persevere and navigate through obstacles, whether they're
@@ -54,7 +56,7 @@
       Liveview application into a PWA that was successfully submitted to the
       iOS and Google Play stores.
     </p>
-    <p class="text-xl text-green mb-8">
+    <p class="text-lg text-green mb-8 md:text-2xl">
       When I'm not immersed in coding or presenting at conferences, I enjoy the
       outdoors, hiking, fishing, and interacting with people from diverse
       backgrounds. I'm also deeply committed to assisting other blind and
@@ -63,7 +65,7 @@
       Blind, the non-employment rate among legally blind individuals in the
       United States was approximately 70% as of 2017.
     </p>
-    <p class="text-xl text-green mb-8">
+    <p class="text-lg text-green mb-8 md:text-2xl">
       If you're interested in collaboration or simply wish to connect, don't
       hesitate to reach out to me at andrew@lessthanseventy.com. You can also
       find me on GitHub, LinkedIn, or Discord under the username
