@@ -4,14 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "Lessthanseventy" %>
+    <.live_title suffix=" · lessthanseventy">
+      <%= assigns[:page_title] || "lessthanseventy" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
+    <style>
+      :root {
+          --yellow: #FFB000;
+          --green: #33FF00;
+          --dark: #080809;
+      }
+      body {
+          background-color: var(--dark);
+          color: var(--green);
+      }
+    </style>
   </head>
-  <body class="bg-white antialiased">
+  <body class="bg-dark antialiased">
     <%= @inner_content %>
   </body>
 </html>
