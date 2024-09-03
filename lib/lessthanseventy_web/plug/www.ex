@@ -12,8 +12,8 @@ defmodule LessthanseventyWeb.Plug.WWW do
         |> halt()
 
       _ ->
-        if Enum.any?(conn.req_headers, fn {key, _value} ->
-             key == "x-forwarded-proto" and _value != "https"
+        if Enum.any?(conn.req_headers, fn {key, value} ->
+             key == "x-forwarded-proto" and value != "https"
            end) do
           conn
           |> put_resp_header("location", "https://#{conn.host}#{conn.request_path}")

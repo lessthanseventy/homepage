@@ -1,4 +1,5 @@
 defmodule LessthanseventyWeb.Endpoint do
+  use Sentry.PlugCapture
   use Phoenix.Endpoint, otp_app: :lessthanseventy
 
   # The session will be stored in the cookie and signed,
@@ -42,9 +43,13 @@ defmodule LessthanseventyWeb.Endpoint do
   plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
 
   plug Plug.Parsers,
-    parsers: [:urlencoded, :multipart, :json],
+    parsers: [:urlencoded, :multipart],
     pass: ["*/*"],
-    json_decoder: Phoenix.json_library()
+    json_decoder: Phoenix.json_library(),
+    # This sets the maximum request body size to 100MB
+    length: 100_000_000
+
+  plug Sentry.PlugContext
 
   plug Plug.MethodOverride
   plug Plug.Head

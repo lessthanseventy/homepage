@@ -11,6 +11,13 @@ config :lessthanseventy,
   ecto_repos: [Lessthanseventy.Repo],
   generators: [timestamp_type: :utc_datetime]
 
+config :lessthanseventy, Lessthanseventy.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  pool_size: 10
+
 # Configures the endpoint
 config :lessthanseventy, LessthanseventyWeb.Endpoint,
   url: [host: "localhost"],

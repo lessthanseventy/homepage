@@ -19,12 +19,16 @@ defmodule LessthanseventyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    live "/xml_upload", XmlUploadLive, :upload
+    live "/xml_upload/index", XmlUploadLive, :index
+    live "/xml_upload/:id", XmlUploadLive, :show
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", LessthanseventyWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", LessthanseventyWeb do
+    pipe_through :api
+    resources "/xml_uploads", XMLUploadController, except: [:new, :edit]
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:lessthanseventy, :dev_routes) do

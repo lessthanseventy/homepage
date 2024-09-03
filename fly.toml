@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for lessthanseventy on 2024-08-23T15:17:02-06:00
+# fly.toml app configuration file generated for lessthanseventy on 2024-09-03T13:03:25-06:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -9,14 +9,12 @@ kill_signal = 'SIGTERM'
 
 [build]
 
-[env]
-  DATABASE_PATH = '/mnt/name/name.db'
-  PHX_HOST = 'lessthanseventy.fly.dev'
-  PORT = '8080'
+[deploy]
+  release_command = '/app/bin/migrate'
 
-[[mounts]]
-  source = 'name'
-  destination = '/mnt/name'
+[env]
+  PHX_HOST = 'lessthanseventy.com'
+  PORT = '8080'
 
 [http_service]
   internal_port = 8080

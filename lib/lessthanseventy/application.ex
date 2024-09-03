@@ -7,12 +7,15 @@ defmodule Lessthanseventy.Application do
 
   @impl true
   def start(_type, _args) do
+    :logger.add_handler(:my_sentry_handler, Sentry.LoggerHandler, %{
+      config: %{metadata: [:file, :line]}
+    })
+
     children = [
       LessthanseventyWeb.Telemetry,
       Lessthanseventy.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:lessthanseventy, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:lessthanseventy, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:lessthanseventy, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Lessthanseventy.PubSub},
       # Start the Finch HTTP client for sending emails
@@ -38,7 +41,7 @@ defmodule Lessthanseventy.Application do
   end
 
   defp skip_migrations?() do
-    # By default, sqlite migrations are run when using a release
+    # By default, migrations are run when using a release
     System.get_env("RELEASE_NAME") != nil
   end
 end

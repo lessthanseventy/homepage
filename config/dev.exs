@@ -2,10 +2,13 @@ import Config
 
 # Configure your database
 config :lessthanseventy, Lessthanseventy.Repo,
-  database: Path.expand("../lessthanseventy_dev.db", Path.dirname(__ENV__.file)),
-  pool_size: 5,
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true
+  username: "postgres",
+  password: "postgres",
+  database: "lessthanseventy_dev",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10,
+  stacktrace: true
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -63,7 +66,9 @@ config :lessthanseventy, LessthanseventyWeb.Endpoint,
 config :lessthanseventy, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger, :console,
+  format: "[$level] $message\n",
+  level: :debug
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
