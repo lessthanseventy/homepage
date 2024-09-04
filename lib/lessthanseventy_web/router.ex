@@ -20,8 +20,8 @@ defmodule LessthanseventyWeb.Router do
 
     get "/", PageController, :home
     live "/xml_upload", XmlUploadLive, :upload
-    live "/xml_upload/index", XmlUploadLive, :index
-    live "/xml_upload/:id", XmlUploadLive, :show
+    live "/xml_uploads", XmlUploadLive, :index
+    live "/xml_uploads/:id", XmlUploadLive, :show
   end
 
   # Other scopes may use custom stacks.

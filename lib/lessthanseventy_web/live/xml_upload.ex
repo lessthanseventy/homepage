@@ -1,5 +1,5 @@
 defmodule LessthanseventyWeb.XmlUploadLive do
-  use Phoenix.LiveView
+  use LessthanseventyWeb, :live_view
 
   alias Lessthanseventy.XML
 
@@ -8,16 +8,50 @@ defmodule LessthanseventyWeb.XmlUploadLive do
     ~H"""
     <div class="flex flex-col items-center justify-center">
       <%= if @live_action == :index do %>
-        <div>
-          <%= for xml_upload <- @xml_uploads do %>
-            <div><%= xml_upload.id %></div>
-          <% end %>
+        <div class="w-full px-6 py-4">
+          <table class="min-w-full leading-normal">
+            <thead>
+              <tr>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  ID
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Plaintiff
+                </th>
+                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  Defendants
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for xml_upload <- @xml_uploads do %>
+                <tr>
+                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                    <%= xml_upload.id %>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                    <%= xml_upload.plaintiff %>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                    <%= xml_upload.defendants %>
+                  </td>
+                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                    <.link
+                      class="bg-retroYellow text-black px-4 py-2 rounded-full"
+                      href={~p"/xml_uploads/#{xml_upload.id}"}
+                    >
+                      View
+                    </.link>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       <% end %>
       <%= if @live_action == :show do %>
-        <div class="flex flex-col items-center justify-center">
-          <div><%= @xml_upload.id %></div>
-          <div><%= @xml_upload.content %></div>
+        <div class="flex flex-col items-left justify-center">
+          <%= Phoenix.HTML.raw(XML.format_xml(@xml_upload.content)) %>
         </div>
       <% end %>
       <%= if @live_action == :upload do %>
@@ -98,16 +132,16 @@ defmodule LessthanseventyWeb.XmlUploadLive do
   @impl Phoenix.LiveView
   def handle_event(
         "validate",
-        %{"xml_file" => upload},
+        %{"xml_file" => xml_upload},
         socket
       ) do
     {plaintiff, defendants} =
-      upload["content"]
+      xml_upload["content"]
       |> XML.parse()
 
     {:noreply,
      assign(socket,
-       upload: upload,
+       xml_upload: xml_upload,
        error: nil,
        plaintiff: plaintiff,
        defendants: defendants
@@ -123,17 +157,30 @@ defmodule LessthanseventyWeb.XmlUploadLive do
   end
 
   def handle_event("save", _params, socket) do
-    uploaded_files =
-      consume_uploaded_entries(socket, :xml_upload, fn %{path: path}, _entry ->
-        dest =
-          Path.join(
-            Application.app_dir(:lessthanseventy, "priv/static/uploads"),
-            Path.basename(path)
-          )
+    %{assigns: %{xml_upload: xml_upload, plaintiff: plaintiff, defendants: defendants}} = socket
 
-        File.cp!(path, dest)
-        {:ok, "/uploads/#{Path.basename(dest)}"}
-      end)
+    uploaded_files =
+      consume_uploaded_entries(
+        socket,
+        :xml_upload,
+        fn _path, _entry ->
+          attrs = %{
+            content: xml_upload["content"],
+            plaintiff: plaintiff,
+            defendants: defendants
+          }
+
+          case XML.create_xml_upload(attrs) do
+            {:ok, xml_upload} -> {:ok, xml_upload}
+            {:error, _reason} -> {:error, "Failed to upload XML"}
+          end
+        end
+      )
+
+    socket =
+      socket
+      |> put_flash(:info, "XML uploaded successfully")
+      |> assign(%{plaintiff: nil, defendants: nil})
 
     {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
   end
