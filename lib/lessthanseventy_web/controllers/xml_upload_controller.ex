@@ -14,9 +14,15 @@ defmodule LessthanseventyWeb.XMLUploadController do
   def create(conn, _params) do
     {:ok, body, conn} = Plug.Conn.read_body(conn)
     xml_content = Jason.decode!(body)
+    {plaintiff, defendants} = XML.parse(body)
 
     try do
-      with {:ok, %XMLUpload{} = xml_upload} <- XML.create_xml_upload(xml_content) do
+      with {:ok, %XMLUpload{} = xml_upload} <-
+             XML.create_xml_upload(%{
+               content: xml_content,
+               plaintiff: plaintiff,
+               defendants: defendants
+             }) do
         response_body =
           %{"message" => "XML data processed successfully", "id" => xml_upload.id}
           |> Jason.encode!()
