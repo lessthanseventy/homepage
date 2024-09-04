@@ -11,7 +11,9 @@ defmodule Lessthanseventy.XMLFixtures do
     {:ok, xml_upload} =
       attrs
       |> Enum.into(%{
-        content: "some content"
+        content: "some content",
+        plaintiff: "some plaintiff",
+        defendants: "some defendants"
       })
       |> Lessthanseventy.XML.create_xml_upload()
 

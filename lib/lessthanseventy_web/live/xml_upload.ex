@@ -7,6 +7,61 @@ defmodule LessthanseventyWeb.XmlUploadLive do
   def render(assigns) do
     ~H"""
     <div class="flex flex-col items-center justify-center">
+      <header class="w-full bg-dark text-retroYellow p-4 flex justify-between items-center">
+        <div class="w-full flex flex-col items-center md:flex-row md:justify-between">
+          <h1 class="text-3xl font-bold mb-4 mr-9 sm:text-5xl">XML Upload</h1>
+          <nav>
+            <%= if @live_action == :upload do %>
+              <a href={~p"/xml_uploads"}>
+                <div class="flex text-xl font-bold items-center gap-3 md:text-xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 6h16M4 10h16M4 14h16M4 18h16"
+                    >
+                    </path>
+                  </svg>
+                  <div class="underline">
+                    View All
+                  </div>
+                </div>
+              </a>
+            <% else %>
+              <a href={~p"/xml_upload"}>
+                <div class="flex text-xl font-bold items-center gap-3 md:text-xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V12a1 1 0 011-1h2a1 1 0 011 1"
+                    >
+                    </path>
+                  </svg>
+                  <div class="underline">
+                    Home
+                  </div>
+                </div>
+              </a>
+            <% end %>
+          </nav>
+        </div>
+      </header>
+      <.flash_group flash={@flash} />
       <%= if @live_action == :index do %>
         <.table id="users" rows={@xml_uploads}>
           <:col :let={xml_upload} label="id"><%= xml_upload.id %></:col>
@@ -98,7 +153,7 @@ defmodule LessthanseventyWeb.XmlUploadLive do
   def handle_params(%{"id" => id}, _url, socket) do
     id = String.to_integer(id)
 
-    case XML.get_xml_upload(id) do
+    case XML.get_xml_upload!(id) do
       nil ->
         {:noreply, assign(socket, error: "XML not found")}
 
@@ -170,7 +225,7 @@ defmodule LessthanseventyWeb.XmlUploadLive do
   def handle_event("delete", %{"id" => id}, socket) do
     id
     |> String.to_integer()
-    |> XML.get_xml_upload()
+    |> XML.get_xml_upload!()
     |> XML.delete_xml_upload()
 
     {:noreply, assign(socket, :xml_uploads, XML.list_xml_uploads())}
