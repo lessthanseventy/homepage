@@ -166,4 +166,21 @@ defmodule Lessthanseventy.XML do
       str
     end
   end
+
+  def format_xml(xml, tab \\ "\t") do
+    xml
+    |> String.split(~r/>\s*</)
+    |> Enum.reduce({"", ""}, fn node, {formatted, indent} ->
+      indent =
+        if Regex.match?(~r/^\/\w/, node),
+          do: String.slice(indent, 0, byte_size(indent) - byte_size(tab)),
+          else: indent
+
+      formatted = formatted <> indent <> "<" <> node <> ">\n"
+      indent = if Regex.match?(~r/^<?\w[^>]*[^\/]$/, node), do: indent <> tab, else: indent
+      {formatted, indent}
+    end)
+    |> elem(0)
+    |> (&String.slice(&1, 1, byte_size(&1) - 3)).()
+  end
 end
