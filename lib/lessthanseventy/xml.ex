@@ -86,6 +86,16 @@ defmodule Lessthanseventy.XML do
     XMLUpload.changeset(xml_upload, attrs)
   end
 
+  @doc """
+  Returns an `{plaintiff, defendants}` tuple from the XML text
+
+  ## Examples
+
+      iex> parse(xml)
+      {"some plaintiff", "some defendant}
+      iex> parse(invalid_xml)
+      {:error, "Cannot parse XML content"}
+  """
   def parse(xml) do
     # Select the text nodes
     text_nodes =
@@ -133,7 +143,7 @@ defmodule Lessthanseventy.XML do
 
       {plaintiff, defendants_string}
     else
-      {:error, "Plaintiff not found"}
+      {:error, "Cannot parse XML content"}
     end
   end
 
