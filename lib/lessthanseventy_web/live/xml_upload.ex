@@ -8,46 +8,28 @@ defmodule LessthanseventyWeb.XmlUploadLive do
     ~H"""
     <div class="flex flex-col items-center justify-center">
       <%= if @live_action == :index do %>
-        <div class="w-full px-6 py-4">
-          <table class="min-w-full leading-normal">
-            <thead>
-              <tr>
-                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  ID
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Plaintiff
-                </th>
-                <th class="px-5 py-3 border-b-2 border-gray-200 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  Defendants
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <%= for xml_upload <- @xml_uploads do %>
-                <tr>
-                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                    <%= xml_upload.id %>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                    <%= xml_upload.plaintiff %>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                    <%= xml_upload.defendants %>
-                  </td>
-                  <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                    <.link
-                      class="bg-retroYellow text-black px-4 py-2 rounded-full"
-                      href={~p"/xml_uploads/#{xml_upload.id}"}
-                    >
-                      View
-                    </.link>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <.table id="users" rows={@xml_uploads}>
+          <:col :let={xml_upload} label="id"><%= xml_upload.id %></:col>
+          <:col :let={xml_upload} label="plaintiff"><%= xml_upload.plaintiff %></:col>
+          <:col :let={xml_upload} label="defendants"><%= xml_upload.defendants %></:col>
+          <:action :let={xml_upload}>
+            <div class="flex flex-row items-center justify-center">
+              <.link
+                class="bg-retroYellow text-black mx-4 px-4 py-2 rounded-full self-stretch flex items-center justify-center"
+                href={~p"/xml_uploads/#{xml_upload.id}"}
+              >
+                View
+              </.link>
+              <.button
+                class="bg-red-500 text-white mx-4 px-4 py-2 rounded-full self-stretch flex items-center justify-center"
+                phx-click="delete"
+                phx-value-id={xml_upload.id}
+              >
+                Delete
+              </.button>
+            </div>
+          </:action>
+        </.table>
       <% end %>
       <%= if @live_action == :show do %>
         <div class="flex flex-col items-left justify-center">
@@ -183,5 +165,14 @@ defmodule LessthanseventyWeb.XmlUploadLive do
       |> assign(%{plaintiff: nil, defendants: nil})
 
     {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
+  end
+
+  def handle_event("delete", %{"id" => id}, socket) do
+    id
+    |> String.to_integer()
+    |> XML.get_xml_upload()
+    |> XML.delete_xml_upload()
+
+    {:noreply, assign(socket, :xml_uploads, XML.list_xml_uploads())}
   end
 end
