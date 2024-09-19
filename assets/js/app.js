@@ -89,6 +89,17 @@ Hooks.MapComponent = {
 
     this.map.addControl(searchControl);
 
+    // Add event listener to map click event
+    this.map.on("click", function (e) {
+      // Find the search bar element
+      let searchBar = document.querySelector(".leaflet-control-geosearch");
+      // Check if the search bar is expanded
+      if (searchBar.classList.contains("active")) {
+        // If it is, simulate a click on the search bar to collapse it
+        searchBar.classList.remove("active");
+      }
+    });
+
     // Get the food trucks from the dataset attribute
     let foodTrucks = JSON.parse(this.el.dataset.foodTrucks);
 
