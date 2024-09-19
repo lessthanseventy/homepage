@@ -1,0 +1,19 @@
+<.header class="mb-0">
+  <div class="text-retroYellow">San Francisco Food Trucks</div>
+  <:actions>
+    <.button phx-click="refresh">Refresh Food Truck Data</.button>
+  </:actions>
+</.header>
+
+
+<.table
+  id="food_trucks"
+  rows={@food_trucks}
+  row_click={fn food_truck -> JS.navigate(~p"/food_trucks/#{food_truck}") end}
+>
+  <:col :let={food_truck} label="Name"><%= food_truck.name %></:col>
+  <:col :let={food_truck} label="Address"><%= food_truck.address %></:col>
+  <:col :let={food_truck} label="Description">
+    <%= Enum.join(food_truck.food_items, ", ") %>
+  </:col>
+</.table>

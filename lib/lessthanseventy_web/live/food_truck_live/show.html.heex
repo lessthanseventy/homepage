@@ -1,0 +1,32 @@
+<header class="mb-0">
+  Food truck <%= @food_truck.id %>
+  <.link patch={~p"/food_trucks/#{@food_truck}/show/edit"} phx-click={JS.push_focus()}>
+    <.button>Edit food_truck</.button>
+  </.link>
+</header>
+
+<.list>
+  <:item title="Address"><%= @food_truck.address %></:item>
+  <:item title="Food items"><%= @food_truck.food_items %></:item>
+  <:item title="Lat"><%= @food_truck.lat %></:item>
+  <:item title="Lon"><%= @food_truck.lon %></:item>
+  <:item title="Schedule"><%= @food_truck.schedule %></:item>
+</.list>
+
+<.back navigate={~p"/food_trucks"}>Back to food_trucks</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="food_truck-modal"
+  show
+  on_cancel={JS.patch(~p"/food_trucks/#{@food_truck}")}
+>
+  <.live_component
+    module={LessthanseventyWeb.FoodTruckLive.FormComponent}
+    id={@food_truck.id}
+    title={@page_title}
+    action={@live_action}
+    food_truck={@food_truck}
+    patch={~p"/food_trucks/#{@food_truck}"}
+  />
+</.modal>
