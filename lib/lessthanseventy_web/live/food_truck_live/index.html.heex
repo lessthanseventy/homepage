@@ -16,7 +16,7 @@
 
 <.table
   id="food_trucks"
-  rows={@food_trucks}
+  rows={@filtered_food_trucks}
   row_click={fn food_truck -> JS.navigate(~p"/food_trucks/#{food_truck}") end}
 >
   <:col :let={food_truck} label="Name"><%= food_truck.name %></:col>
