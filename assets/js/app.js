@@ -21,6 +21,10 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import { LiveSocket } from "phoenix_live_view";
 import topbar from "../vendor/topbar";
+import {
+  SearchControl,
+  OpenStreetMapProvider,
+} from "../vendor/leaflet-geosearch";
 
 let Hooks = {};
 Hooks.UploadHook = {
@@ -43,6 +47,69 @@ Hooks.UploadHook = {
     });
   },
 };
+Hooks.MapComponent = {
+  mounted() {
+    this.initializeMap();
+    this.handleEvent("centerMapOnFirstFoodTruck", (foodTrucks) => {
+      if (foodTrucks.filtered_food_trucks.length > 0) {
+        let firstFoodTruck = foodTrucks.filtered_food_trucks[0];
+        this.map.setView([firstFoodTruck.lat, firstFoodTruck.lon], 14);
+      }
+    });
+  },
+  updated() {
+    this.initializeMap();
+  },
+  initializeMap() {
+    // If a map already exists, remove it
+    if (this.map) {
+      this.map.remove();
+    }
+
+    // Initialize a new map
+    this.map = L.map(this.el).setView([37.7749, -122.4194], 14); // Coordinates for San Francisco
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+    }).addTo(this.map);
+
+    const provider = new OpenStreetMapProvider({
+      params: {
+        viewbox: "-123.173825,37.63983,-122.3265,37.929824", // The bounding box for San Francisco
+        bounded: 1,
+      },
+    });
+    const searchControl = new SearchControl({
+      provider: provider,
+      style: "search",
+      showResult: (result, value) => {
+        // Override the showResult method
+        this.map.panTo(result.center); // Pan to the location without adding a marker
+      },
+    });
+
+    this.map.addControl(searchControl);
+
+    // Get the food trucks from the dataset attribute
+    let foodTrucks = JSON.parse(this.el.dataset.foodTrucks);
+
+    // Add a marker for each food truck
+    for (let i = 0; i < foodTrucks.length; i++) {
+      let foodTruck = foodTrucks[i];
+      L.marker([foodTruck.lat, foodTruck.lon]).addTo(this.map).bindPopup(`
+        <div class="flex flex-col gap-2 justify-left px-5 w-full">
+          <div class="font-bold">
+            ${foodTruck.name}
+          </div>
+          <div class="flex w-full"><div class="w-1/3 mr-5">Type:</div><div class="w-2/3">${foodTruck.type}</div></div>
+          <div class="flex w-full"><div class="w-1/3 mr-5">Address:</div><div class="w-2/3">${foodTruck.address}</div></div>
+          <div class="flex w-full"><div class="w-1/3 mr-5">Location:</div><div class="w-2/3">${foodTruck.location_description}</div></div>
+          <div class="flex w-full"><div class="w-1/3 mr-5">Description:</div><div class="w-2/3">${foodTruck.food_items.join(", ")}</div></div>
+          <div class="flex w-full"><div class="w-1/3 mr-5">Schedule:</div><a class="w-2/3" href="${foodTruck.schedule}" target="_blank">Schedule</a></div>
+        </div>
+        `); // Add a popup to each marker
+    }
+  },
+};
 
 let csrfToken = document
   .querySelector("meta[name='csrf-token']")
@@ -60,6 +127,10 @@ window.addEventListener("phx:page-loading-stop", (_info) => topbar.hide());
 
 // connect if there are any LiveViews on the page
 liveSocket.connect();
+
+liveSocket.on("display-map", ({ detail: { food_trucks } }) => {
+  initMap(food_trucks);
+});
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()

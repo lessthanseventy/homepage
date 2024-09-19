@@ -5,6 +5,13 @@
   </:actions>
 </.header>
 
+<div class="h-[65%] w-full flex flex-col justify-start items-center text-black my-5">
+  <.live_component
+    module={LessthanseventyWeb.FoodTruckLive.MapComponent}
+    id="map"
+    food_trucks={@food_trucks}
+  />
+</div>
 
 <.table
   id="food_trucks"
