@@ -3,12 +3,12 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
 
   alias Lessthanseventy.FoodTrucks
   alias Lessthanseventy.FoodTrucks.FoodTruck
-  alias LessthanseventyWeb.FoodTruckLive.MapComponent
+  alias LessthanseventyWeb.FoodTruckLive.SearchFormLiveComponent
 
   @impl true
   def mount(_params, _session, socket) do
     food_trucks = FoodTrucks.list_food_trucks() |> Enum.to_list()
-    {:ok, socket |> assign(:food_trucks, food_trucks)}
+    {:ok, socket |> assign(%{food_trucks: food_trucks, filtered_food_trucks: food_trucks})}
   end
 
   @impl true
@@ -31,12 +31,12 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
   end
 
   @impl true
-  def handle_info({MapComponent, {:filtered, []}}, socket) do
+  def handle_info({SearchFormLiveComponent, {:filtered, []}}, socket) do
     {:noreply, socket |> assign(:food_trucks, FoodTrucks.list_food_trucks())}
   end
 
-  def handle_info({MapComponent, {:filtered, filtered_food_trucks}}, socket) do
-    socket = socket |> assign(:food_trucks, filtered_food_trucks)
+  def handle_info({SearchFormLiveComponent, {:filtered, filtered_food_trucks}}, socket) do
+    socket = socket |> assign(:filtered_food_trucks, filtered_food_trucks)
 
     {:noreply,
      socket

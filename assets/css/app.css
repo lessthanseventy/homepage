@@ -6,6 +6,10 @@ table thead {
   color: #33ff00;
 }
 
+.dropdown-results {
+  z-index: 99999;
+}
+
 .leaflet-control-geosearch form {
   display: none !important;
 }

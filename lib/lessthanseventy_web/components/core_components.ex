@@ -475,7 +475,7 @@ defmodule LessthanseventyWeb.CoreComponents do
 
     ~H"""
     <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="w-[40rem] mt-11 sm:w-full bg-dark text-retroYellow">
+      <table class="w-[40rem] mt-5 sm:w-full bg-dark text-retroYellow">
         <thead class="text-sm text-left leading-6">
           <tr>
             <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal"><%= col[:label] %></th>

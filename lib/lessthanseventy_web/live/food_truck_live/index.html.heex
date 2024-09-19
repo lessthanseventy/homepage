@@ -5,11 +5,12 @@
   </:actions>
 </.header>
 
-<div class="h-[65%] w-full flex flex-col justify-start items-center text-black my-5">
+<div class="h-[65%] w-full flex flex-col justify-start items-center text-black mt-5">
   <.live_component
     module={LessthanseventyWeb.FoodTruckLive.MapComponent}
     id="map"
     food_trucks={@food_trucks}
+    filtered_food_trucks={@filtered_food_trucks}
   />
 </div>
 
