@@ -4,7 +4,7 @@
 
 <.list class="text-retroYellow">
   <:item title="Address"><%= @food_truck.address %></:item>
-  <:item title="Food items"><%= @food_truck.food_items %></:item>
+  <:item title="Food items"><%= Enum.join(@food_truck.food_items, ", ") %></:item>
   <:item title="Lat"><%= @food_truck.lat %></:item>
   <:item title="Lon"><%= @food_truck.lon %></:item>
   <:item title="Schedule"><%= @food_truck.schedule %></:item>
