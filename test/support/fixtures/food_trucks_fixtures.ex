@@ -11,8 +11,9 @@ defmodule Lessthanseventy.FoodTrucksFixtures do
     {:ok, food_truck} =
       attrs
       |> Enum.into(%{
+        name: "some name",
         address: "some address",
-        food_items: "some food_items",
+        food_items: ["some", "food_items"],
         lat: 120.5,
         lon: 120.5,
         schedule: "some schedule"
