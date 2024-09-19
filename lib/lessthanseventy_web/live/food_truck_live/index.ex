@@ -18,7 +18,7 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Food trucks")
+    |> assign(:page_title, "San Francisco Food Truck Search")
     |> assign(:food_truck, nil)
   end
 
