@@ -109,6 +109,8 @@ defmodule LessthanseventyWeb.FoodTruckLive.SearchFormLiveComponent do
     split_at = String.length(search_phrase)
     {selected, rest} = String.split_at(search_result, split_at)
 
+    rest = rest |> String.slice(0..16)
+
     "<strong>#{selected}</strong>#{rest}"
   end
 
