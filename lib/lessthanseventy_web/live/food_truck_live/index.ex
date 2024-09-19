@@ -2,7 +2,6 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
   use LessthanseventyWeb, :live_view
 
   alias Lessthanseventy.FoodTrucks
-  alias Lessthanseventy.FoodTrucks.FoodTruck
   alias LessthanseventyWeb.FoodTruckLive.SearchFormLiveComponent
 
   @impl true

@@ -1,8 +1,6 @@
 defmodule LessthanseventyWeb.FoodTruckLive.MapComponent do
   use LessthanseventyWeb, :live_component
 
-  alias Lessthanseventy.FoodTrucks
-
   @impl true
   def render(assigns) do
     ~H"""
