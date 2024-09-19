@@ -26,16 +26,6 @@ defmodule LessthanseventyWeb.Router do
 
     live "/food_trucks/:id", FoodTruckLive.Show, :show
     live "/food_trucks/:id/show/edit", FoodTruckLive.Show, :edit
-
-    live "/xml_upload", XmlUploadLive, :upload
-    live "/xml_uploads", XmlUploadLive, :index
-    live "/xml_uploads/:id", XmlUploadLive, :show
-  end
-
-  # Other scopes may use custom stacks.
-  scope "/api", LessthanseventyWeb do
-    pipe_through :api
-    resources "/xml_uploads", XMLUploadController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

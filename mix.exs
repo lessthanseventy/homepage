@@ -18,7 +18,7 @@ defmodule Lessthanseventy.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      extra_applications: [:elixir_xml_to_map, :logger, :runtime_tools],
+      extra_applications: [:logger, :runtime_tools],
       mod: {Lessthanseventy.Application, []}
     ]
   end
@@ -35,7 +35,6 @@ defmodule Lessthanseventy.MixProject do
       {:bandit, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:ecto_sql, "~> 3.10"},
-      {:elixir_xml_to_map, "~> 2.0"},
       {:finch, "~> 0.13"},
       {:gettext, "~> 0.20"},
       {:hackney, "~> 1.8"},
@@ -48,7 +47,6 @@ defmodule Lessthanseventy.MixProject do
        depth: 1},
       {:httpoison, "~> 1.8"},
       {:jason, "~> 1.2"},
-      {:meeseeks, "~> 0.17.0"},
       {:nimble_csv, "~> 1.1"},
       {:phoenix, "~> 1.7.11"},
       {:phoenix_ecto, "~> 4.4"},
@@ -57,7 +55,6 @@ defmodule Lessthanseventy.MixProject do
       {:phoenix_live_view, "~> 0.20.2"},
       {:postgrex, ">= 0.0.0"},
       {:sentry, "~> 10.2.0"},
-      {:sweet_xml, "~> 0.7.4"},
       {:swoosh, "~> 1.5"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
