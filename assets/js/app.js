@@ -102,11 +102,13 @@ Hooks.MapComponent = {
 
     // Get the food trucks from the dataset attribute
     let foodTrucks = JSON.parse(this.el.dataset.foodTrucks);
+    let activeFoodTruckId = this.el.dataset.selectedFoodTruck;
 
     // Add a marker for each food truck
     for (let i = 0; i < foodTrucks.length; i++) {
       let foodTruck = foodTrucks[i];
-      L.marker([foodTruck.lat, foodTruck.lon]).addTo(this.map).bindPopup(`
+      let marker = L.marker([foodTruck.lat, foodTruck.lon]).addTo(this.map)
+        .bindPopup(`
         <div class="flex flex-col gap-2 justify-left px-5 w-full">
           <div class="font-bold">
             ${foodTruck.name}
@@ -118,7 +120,26 @@ Hooks.MapComponent = {
           <div class="flex w-full"><div class="w-1/3 mr-5">Schedule:</div><a class="w-2/3" href="${foodTruck.schedule}" target="_blank">Schedule</a></div>
         </div>
         `); // Add a popup to each marker
+      // If this is the active food truck, highlight the marker
+      if (foodTruck.id == activeFoodTruckId) {
+        console.log("got here");
+        this.map.whenReady(function () {
+          marker.openPopup();
+        });
+      }
+      marker.on("click", function () {
+        // Update the URL with the active food truck ID
+        let url = new URL(window.location.href);
+        url.searchParams.set("selected_food_truck", foodTruck.id);
+        history.pushState({}, "", url);
+      });
     }
+    this.map.on("popupclose", function () {
+      // Clear the active food truck ID from the URL
+      let url = new URL(window.location.href);
+      url.searchParams.delete("selected_food_truck");
+      history.replaceState({}, "", url);
+    });
   },
 };
 

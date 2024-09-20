@@ -5,9 +5,8 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
   alias LessthanseventyWeb.FoodTruckLive.SearchFormLiveComponent
 
   @impl true
-  def mount(_params, _session, socket) do
-    food_trucks = FoodTrucks.list_food_trucks() |> Enum.to_list()
-    {:ok, socket |> assign(%{food_trucks: food_trucks, filtered_food_trucks: food_trucks})}
+  def mount(_params, _url, socket) do
+    {:ok, socket}
   end
 
   @impl true
@@ -15,10 +14,17 @@ defmodule LessthanseventyWeb.FoodTruckLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :index, _params) do
+  defp apply_action(socket, :index, params) do
+    food_trucks = FoodTrucks.list_food_trucks() |> Enum.to_list()
+    selected_food_truck = params["selected_food_truck"]
+
     socket
-    |> assign(:page_title, "San Francisco Food Truck Search")
-    |> assign(:food_truck, nil)
+    |> assign(%{
+      page_title: "San Francisco Food Truck Search",
+      food_trucks: food_trucks,
+      filtered_food_trucks: food_trucks,
+      selected_food_truck: selected_food_truck
+    })
   end
 
   @impl true

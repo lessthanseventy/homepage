@@ -14,6 +14,7 @@ defmodule LessthanseventyWeb.FoodTruckLive.MapComponent do
         class="w-full h-[90%]"
         id="map-component"
         phx-hook="MapComponent"
+        data-selected-food-truck={@selected_food_truck |> IO.inspect()}
         data-food-trucks={Jason.encode!(@filtered_food_trucks)}
       >
       </div>
